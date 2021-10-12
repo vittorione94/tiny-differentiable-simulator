@@ -625,6 +625,7 @@
       .def("get_world_com", &MultiBody<MyAlgebra>::get_world_com)
       .def("attach_link", &MultiBody<MyAlgebra>::attach_link)
       .def("set_q", &MultiBody<MyAlgebra>::set_q)
+      .def("set_qd", &MultiBody<MyAlgebra>::set_qd)
 #if 0
       .def("point_jacobian",
            &MultiBody<MyAlgebra>::point_jacobian1)
@@ -635,7 +636,8 @@
       .def("clear_forces", &MultiBody<MyAlgebra>::clear_forces)
       .def("is_floating", &MultiBody<MyAlgebra>::is_floating)
       .def_property_readonly("num_dofs", &MultiBody<MyAlgebra>::dof)
-      //.def_property_readonly("num_dofs_qd", &MultiBody<MyAlgebra>::dof_qd)
+      .def_property_readonly("num_dofs_qd", &MultiBody<MyAlgebra>::dof_qd)
+      .def_property_readonly("dof_actuated", &MultiBody<MyAlgebra>::dof_actuated)
       .def_readwrite("q", &MultiBody<MyAlgebra>::q_)
       .def_readwrite("links", &MultiBody<MyAlgebra>::links_)
       .def_readwrite("qd", &MultiBody<MyAlgebra>::qd_)

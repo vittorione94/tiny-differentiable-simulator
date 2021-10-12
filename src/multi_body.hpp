@@ -475,6 +475,8 @@ class MultiBody {
 
   TINY_INLINE void set_q(const VectorX &q) { q_ = q; }
 
+  TINY_INLINE void set_qd(const VectorX &qd) { qd_ = qd; }
+
   //  TINY_INLINE Scalar get_q_for_link(const VectorX &q, int link_index) const
   //  {
   //    if (Algebra::size(q) == 0) return Algebra::zero();
