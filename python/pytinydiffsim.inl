@@ -635,6 +635,7 @@
       .def("body_to_world", &MultiBody<MyAlgebra>::body_to_world)
       .def("clear_forces", &MultiBody<MyAlgebra>::clear_forces)
       .def("is_floating", &MultiBody<MyAlgebra>::is_floating)
+      .def("joint_damping", &MultiBody<MyAlgebra>::joint_damping)
       .def_property_readonly("num_dofs", &MultiBody<MyAlgebra>::dof)
       .def_property_readonly("num_dofs_qd", &MultiBody<MyAlgebra>::dof_qd)
       .def_property_readonly("dof_actuated", &MultiBody<MyAlgebra>::dof_actuated)
@@ -669,8 +670,10 @@
   m.def("link_transform_base_frame", &MyGetLinkTransformInBase);
   m.def("find_file", &MyFindFile);
   m.def("quat_difference", &QuaternionDifference);
-  //where is the definition of mb_collision_geometries? error when compiling cppad version
-  //m.def("mb_collision_geometries", &mb_collision_geometries);
+  m.def("quaternion_axis_angle", &Quaternion_Axis_Angle);
+  m.def("mb_collision_geometries", &mb_collision_geometries);
+  m.def("matrix_to_euler_xyz", &matrix_to_euler_xyz<MyAlgebra>);
+  m.def("get_axis_difference_quaternion", &get_axis_difference_quaternion<MyAlgebra>);
 
   m.def("pi", &MyPi);
   m.def("cos", &MyCos);
@@ -1076,7 +1079,7 @@
 
      py::class_<ReacherEnv<MyAlgebra>>(m, "ReacherEnv")
       .def(py::init<>())
-      .def("reset", &ReacherEnv<MyAlgebra>::reset)
+      .def("reset",&ReacherEnv<MyAlgebra>::reset, py::arg("gravity") = MyAlgebra::Vector3(0.,0.,-10.))
       .def("step", &ReacherEnv<MyAlgebra>::step2)
       .def("rollout", &ReacherEnv<MyAlgebra>::rollout)
       .def("update_weights", &ReacherEnv<MyAlgebra>::init_neural_network)
@@ -1094,6 +1097,15 @@
                      &CartpoleEnvOutput::reward)
       .def_readwrite("done",
                      &CartpoleEnvOutput::done)
+      .def_readwrite("cart_graphics_pos",
+                     &CartpoleEnvOutput::cart_graphics_pos)
+      .def_readwrite("cart_graphics_orn",
+                     &CartpoleEnvOutput::cart_graphics_orn)
+      .def_readwrite("pole_graphics_pos",
+                     &CartpoleEnvOutput::pole_graphics_pos)
+      .def_readwrite("pole_graphics_orn",
+                     &CartpoleEnvOutput::pole_graphics_orn)
+      
       ;
 
    py::class_<CartpoleRolloutOutput>(m, "CartpoleRolloutOutput")
