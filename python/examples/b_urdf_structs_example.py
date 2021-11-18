@@ -14,8 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import pytinydiffsim as pd
 import time
+
+import pytinydiffsim as pd
+
 
 def create_multi_body(mass, collision_shapes, is_floating, world):
   urdf = pd.TinyUrdfStructures()

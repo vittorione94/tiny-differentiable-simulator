@@ -14,19 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import pybullet_utils.urdfEditor as ued
-import pybullet_utils.bullet_client as bc
-import pybullet_data as pd
-import time
 import os
+import time
+
 import meshcat
-import meshcat.geometry as g
-import meshcat.transformations as tf
-import numpy as np
-
-
 import meshcat_utils_pb
-
+import pybullet_data as pd
+import pybullet_utils.bullet_client as bc
+import pybullet_utils.urdfEditor as ued
 
 vis = meshcat.Visualizer(zmq_url='tcp://127.0.0.1:6000')
 # Or don"t use this line to preserve state of visualization upon

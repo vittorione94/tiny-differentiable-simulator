@@ -14,12 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import pytinydiffsim as dp
-import meshcat_utils_dp
 import meshcat
-import pd_control
-
+import meshcat_utils_dp
 import numpy as np
+import pytinydiffsim as dp
 
 #Use a PD controller
 MOTOR_CONTROL_POSITION = 1 

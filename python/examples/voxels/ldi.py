@@ -1,13 +1,13 @@
-import numpy as np
-import time
-import pybullet
-import ldi3d
-import pybullet_utils.bullet_client as bc
-import geom_utils
-import math
 import argparse
+import math
+
+import geom_utils
+import ldi3d
+import numpy as np
+import pybullet
+import pybullet_utils.bullet_client as bc
+
 #import eval_proxies
-import random
 #import eval_cpp
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -43,7 +43,7 @@ print("target volume =", ldi._target_volume)
 
 
 import pytinyopengl3 as p
-import math, time
+import math
 
 app = p.TinyOpenGL3App("ldi")
 app.renderer.init()

@@ -17,8 +17,6 @@
 import pytinydiffsim as dp
 #import meshcat_utils_dp
 #import meshcat
-import time
-import copy
 world = dp.TinyWorld()
 mb_solver = dp.TinyMultiBodyConstraintSolver()
 

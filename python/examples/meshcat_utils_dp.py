@@ -14,12 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os
-
-import meshcat
 import meshcat.geometry as g
-import pytinydiffsim as dp
 import numpy as np
+import pytinydiffsim as dp
 
 
 class VisualLinkInfo(object):

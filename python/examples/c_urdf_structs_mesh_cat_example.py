@@ -14,14 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import pytinydiffsim as pd
 import time
-import os
+
 import meshcat
-import meshcat.geometry as g
-import meshcat.transformations as tf
-import numpy as np
 import meshcat_utils_dp
+import pytinydiffsim as pd
+
 
 def create_multi_body(link_name, mass, collision_shapes, visual_shapes, is_floating, mc, world):
   urdf = pd.TinyUrdfStructures()

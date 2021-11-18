@@ -11,10 +11,7 @@ if use_auto_diff:
   import pytinydiffsim_dual as dp
 else:
   import pytinydiffsim as dp
-  
-import copy
 
-import math, time
 
 def rollout(force_x, force_y, step, render):
 

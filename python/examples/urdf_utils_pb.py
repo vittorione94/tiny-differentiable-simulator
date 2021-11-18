@@ -14,9 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import pybullet
 import pybullet_utils.urdfEditor as ued
 import pytinydiffsim as dp
-import pybullet
 
 
 class UrdfConverterPyBullet(ued.UrdfEditor):

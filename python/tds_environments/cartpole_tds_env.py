@@ -1,9 +1,10 @@
 import math
+
 import gym
+import numpy as np
+import pytinydiffsim
 from gym import spaces
 from gym.utils import seeding
-import numpy as np
-import pytinydiffsim 
 
 
 class CartpolePyTinyDiffSim(gym.Env):

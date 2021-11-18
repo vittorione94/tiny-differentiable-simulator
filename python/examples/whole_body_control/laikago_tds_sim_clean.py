@@ -1,10 +1,10 @@
 import re
+
+import meshcat
+import meshcat_utils_dp
 import numpy as np
 import pytinydiffsim as dp
-import meshcat_utils_dp
-import meshcat
 
-import time
 np.set_printoptions(precision=3, suppress=True, linewidth=200)
 
 def vecx_to_np(a):

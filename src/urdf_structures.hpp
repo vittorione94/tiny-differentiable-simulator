@@ -238,6 +238,7 @@ struct UrdfJoint {
   int joint_type;
   Scalar joint_lower_limit;
   Scalar joint_upper_limit;
+  Scalar joint_effort;
   std::string parent_name;
   std::string child_name;
   Vector3 joint_origin_xyz;

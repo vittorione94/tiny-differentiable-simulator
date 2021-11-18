@@ -1,5 +1,7 @@
+import math
+import time
+
 import pytinyopengl3 as p
-import math, time
 
 app = p.TinyOpenGL3App("title")
 app.renderer.init()

@@ -988,6 +988,8 @@
                      &UrdfJoint<MyAlgebra>::joint_lower_limit)
       .def_readwrite("joint_upper_limit",
                      &UrdfJoint<MyAlgebra>::joint_upper_limit)
+      .def_readwrite("joint_effort",
+                     &UrdfJoint<MyAlgebra>::joint_effort)
       .def_readwrite("parent_name",
                      &UrdfJoint<MyAlgebra>::parent_name)
       .def_readwrite("child_name",

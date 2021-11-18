@@ -1,7 +1,5 @@
-import glob
-import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation, ImageMagickFileWriter
+import pandas as pd
 
 '''Plots an animation of trajectory evolution.
 

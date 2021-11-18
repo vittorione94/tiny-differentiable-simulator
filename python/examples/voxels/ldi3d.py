@@ -1,7 +1,5 @@
-import numpy as np
-import math
-import time
 import geom_utils
+import numpy as np
 
 dtype = [('body_uid', 'int'), ('hit_fraction', float)]
 renderLines = True

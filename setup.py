@@ -13,20 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from setuptools import find_packages
-from sys import platform as _platform
-import sys
-import glob
-import os
-
-from distutils.core import setup
-from distutils.extension import Extension
-from distutils.util import get_platform
-from glob import glob
-
 # monkey-patch for parallel compilation
 import multiprocessing
 import multiprocessing.pool
+from distutils.core import setup
+from distutils.extension import Extension
+from distutils.util import get_platform
+from sys import platform as _platform
+
+from setuptools import find_packages
 
 
 def parallelCCompile(self,

@@ -1,9 +1,6 @@
-import pytinyopengl3 as p
-import pytinydiffsim as pd
 import opengl_utils_pd
-import os
-import numpy as np
-
+import pytinydiffsim as pd
+import pytinyopengl3 as p
 
 # CAMERA SETUP
 app = p.TinyOpenGL3App("title")

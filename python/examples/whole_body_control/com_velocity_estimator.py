@@ -2,13 +2,13 @@
 
 from __future__ import absolute_import
 from __future__ import division
-#from __future__ import google_type_annotations
+# from __future__ import google_type_annotations
 from __future__ import print_function
 
-import numpy as np
-from typing import Any, Sequence
 import collections
+from typing import Any, Sequence
 
+import numpy as np
 
 _DEFAULT_WINDOW_SIZE = 20
 

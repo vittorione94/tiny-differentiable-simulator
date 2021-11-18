@@ -14,9 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import matplotlib.pyplot as plt
 import matplotlib.colors as colors
-import matplotlib.cbook as cbook
+import matplotlib.pyplot as plt
 import numpy as np
 
 raw = np.loadtxt("grid_search_bhe.txt")

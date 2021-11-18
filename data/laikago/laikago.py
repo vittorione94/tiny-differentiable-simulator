@@ -1,5 +1,6 @@
-import pybullet as p
 import time
+
+import pybullet as p
 
 p.connect(p.GUI)
 plane = p.loadURDF("plane.urdf")

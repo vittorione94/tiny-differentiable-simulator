@@ -22,10 +22,9 @@ At the moment, only double precision version is exposed.
 Will also expose stan_math forward mode differentiation, dual and fixed point.
 """
 
+import pytinydiffsim as pydiffphys
 from absl import app
 from absl import flags
-
-import pytinydiffsim as pydiffphys
 
 FLAGS = flags.FLAGS
 

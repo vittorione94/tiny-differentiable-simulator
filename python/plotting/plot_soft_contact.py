@@ -15,11 +15,10 @@
 # limitations under the License.
 
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
-from matplotlib import cm
 import numpy as np
-
 import pydiffphys
+from matplotlib import cm
+from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
 from pydiffphys import TinyMultiBodyConstraintSolverSpring as SoftContactModel
 
 model = SoftContactModel()

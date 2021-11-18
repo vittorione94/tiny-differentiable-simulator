@@ -1,8 +1,10 @@
 CMakeLists.txt
+LICENSE
 MANIFEST.in
 README.md
 setup.py
 examples/billiard_opt_example_gui.cpp
+examples/cartpole_eval.cpp
 examples/ceres_estimation_real.cpp
 examples/cgal_sdf_to_mesh_ellipsoid.cpp
 examples/cuda_ant_codegen.cpp
@@ -11,6 +13,7 @@ examples/cuda_laikago_codegen.cpp
 examples/environment_eval.cpp
 examples/environment_train.cpp
 examples/inclined_plane_gui.cpp
+examples/laikago_eval.cpp
 examples/laikago_footstep_ik.cpp
 examples/laikago_opengl_example.cpp
 examples/meshcat_zmq_example.cpp
@@ -38,6 +41,7 @@ examples/ars/shared_noise_table.h
 examples/environments/ant_environment.h
 examples/environments/cartpole_environment.h
 examples/environments/cartpole_urdf.h
+examples/environments/cuda_model_laikago_forward_zero.cpp
 examples/environments/laikago_environment.h
 examples/environments/laikago_toes_zup_urdf.h
 examples/environments/laikago_toes_zup_xyz_xyzrot_urdf.h
@@ -47,12 +51,15 @@ examples/environments/reacher_environment.h
 examples/whole_body_control/laikago_tds_mpc.cpp
 python/CMakeLists.txt
 python/pytinydiffsim.cc
+python/pytinydiffsim.cpython-37m-darwin.so
 python/pytinydiffsim.inl
 python/pytinydiffsim_ad.cc
 python/pytinydiffsim_dual.cc
+python/pytinydiffsim_dual.cpython-37m-darwin.so
 python/pytinydiffsim_example.py
 python/pytinydiffsim_includes.h
 python/pytinyopengl3.cc
+python/pytinyopengl3.cpython-37m-darwin.so
 python/examples/a_meshcat_example.py
 python/examples/b_urdf_structs_example.py
 python/examples/billiard_optimization.py
@@ -112,7 +119,6 @@ src/contact_point.hpp
 src/geometry.hpp
 src/link.hpp
 src/mb_constraint_solver.hpp
-src/mb_constraint_solver_spring.hpp
 src/multi_body.hpp
 src/rb_constraint_solver.hpp
 src/rigid_body.hpp
@@ -133,6 +139,7 @@ src/math/conditionals.hpp
 src/math/eigen_algebra.hpp
 src/math/enoki_algebra.hpp
 src/math/inertia.hpp
+src/math/matrix_utils.hpp
 src/math/neural_network.hpp
 src/math/pose.hpp
 src/math/spatial_vector.hpp

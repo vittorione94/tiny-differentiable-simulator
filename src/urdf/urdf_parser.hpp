@@ -613,32 +613,30 @@ struct UrdfParser {
         }
       }
     }
-#if 0
-		//todo
-		// Get limit
-		tinyxml2::XMLElement* limit_xml = config->FirstChildElement("limit");
-		if (limit_xml)
-		{
-			if (!parseJointLimits(joint, limit_xml, logger))
-			{
-				logger.report_error("Could not parse limit element for joint:");
-				logger.report_error(joint.name.c_str());
-				return false;
-			}
-		}
-		else if (joint.type == URDFRevoluteJoint)
-		{
-			logger.report_error("Joint is of type REVOLUTE but it does not specify limits");
-			logger.report_error(joint.name.c_str());
-			return false;
-		}
-		else if (joint.type == URDFPrismaticJoint)
-		{
-			logger.report_error("Joint is of type PRISMATIC without limits");
-			logger.report_error(joint.name.c_str());
-			return false;
-		}
-#endif
+
+    // Get limit
+    tinyxml2::XMLElement* limit_xml = config->FirstChildElement("limit");
+    if (limit_xml)
+    {
+        if (!parseJointLimits(joint, limit_xml, logger))
+        {
+            logger.report_error("Could not parse limit element for joint:");
+            logger.report_error(joint.joint_name);
+            return false;
+        }
+    }
+    else if (joint.joint_type == JOINT_REVOLUTE_AXIS)
+    {
+        logger.report_error("Joint is of type REVOLUTE but it does not specify limits");
+        logger.report_error(joint.joint_name);
+        return false;
+    }
+    else if (joint.joint_type == JOINT_PRISMATIC_AXIS)
+    {
+        logger.report_error("Joint is of type PRISMATIC without limits");
+        logger.report_error(joint.joint_name);
+        return false;
+    }
 
 #if 0
 		//todo
@@ -674,6 +672,41 @@ struct UrdfParser {
     return true;
   }
 
+  static bool parseJointLimits(UrdfJoint& joint, tinyxml2::XMLElement* limit_xml, Logger& logger) {
+    const char* lower = limit_xml->Attribute("lower");
+    if (!lower) {
+      logger.report_error("joint lower limit not specified");
+      return false;
+    }
+
+    joint.joint_lower_limit =  Algebra::scalar_from_string(lower);
+
+    const char* upper = limit_xml->Attribute("upper");
+
+
+    if (!upper) {
+      logger.report_error("joint upper limit not specified");
+      return false;
+    }
+
+    joint.joint_upper_limit =  Algebra::scalar_from_string(upper);
+
+    if (joint.joint_lower_limit > joint.joint_upper_limit) {
+        logger.report_error("joint limits are wrong: lower is greater than upper");
+        return false;
+    }
+
+    const char* effort = limit_xml->Attribute("effort");
+
+    if (!effort) {
+      std::string effort = "500";
+    }
+
+    joint.joint_effort =  Algebra::scalar_from_string(effort);
+
+    return true;
+  }
+
   static void assign_links(
       const std::string& link_name,
       std::map<std::string, UrdfJoint>& joints_by_name,
@@ -681,9 +714,10 @@ struct UrdfParser {
       std::map<std::string, std::string>& joint_to_parent_name,
       std::vector<std::string>& joint_to_parent_name_insertion_order,
       std::map<std::string, int>& link_name_to_index, int level,
-      Logger& logger  ) {
+      Logger& logger  )
+  {
     std::stringstream ss;
-      
+
     ss << std::string(level, '-') << link_name << "["
               << link_name_to_index[link_name] << "]" << std::endl;
     logger.print_message(ss.str());
@@ -716,8 +750,8 @@ struct UrdfParser {
     urdf_string = std::string((std::istreambuf_iterator<char>(ifs)),
                               std::istreambuf_iterator<char>());
 
-    //StdLogger logger;
-    NullLogger logger;
+    StdLogger logger;
+    //NullLogger logger;
     int flags = 0;
     UrdfStructures urdf_structures;
     load_urdf_from_string(urdf_string, flags, logger, urdf_structures);

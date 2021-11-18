@@ -15,11 +15,8 @@
 # limitations under the License.
 
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
-from matplotlib import cm
 import numpy as np
-import json
-import math
+from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
 
 q_dim = 9
 qd_dim = 9

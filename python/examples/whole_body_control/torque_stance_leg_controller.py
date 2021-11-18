@@ -3,12 +3,13 @@
 
 from __future__ import absolute_import
 from __future__ import division
-#from __future__ import google_type_annotations
+# from __future__ import google_type_annotations
 from __future__ import print_function
 
+import inspect
 import os
 import sys
-import inspect
+
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(os.path.dirname(currentdir))
 os.sys.path.insert(0, parentdir)
@@ -16,12 +17,6 @@ os.sys.path.insert(0, parentdir)
 
 use_cpp_mpc = True
 
-  
-import numpy as np
-import os
-import glob
-import random
-import matplotlib.pyplot as plt
 import argparse
 
 
@@ -54,7 +49,6 @@ else:
 from typing import Any, Sequence, Tuple
 
 import numpy as np
-import pybullet as p  # pytype: disable=import-error
 
 try:
   import gait_generator as gait_generator_lib

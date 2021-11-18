@@ -8,6 +8,7 @@ from __future__ import print_function
 
 import math
 from typing import Sequence
+
 import numpy as np
 
 _MAX_ABS_RPY = 0.3
