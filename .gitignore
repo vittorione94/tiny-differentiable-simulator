@@ -1,4 +1,6 @@
 .clangd
+.idea/
+*.so
 build/
 compile_commands.json
 Dockerfile
