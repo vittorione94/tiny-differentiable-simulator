@@ -216,6 +216,15 @@ struct UrdfToMultiBody {
         mb.attach(l, urdf_structures.links[i].parent_index);
       }
     }
+
+    for(auto joint : urdf_structures.joints){
+      if (joint.joint_lower_limit < joint.joint_upper_limit)
+      {
+        std::pair limit = std::make_pair((joint.joint_lower_limit * Algebra::pi()) / Scalar(180.),
+                                         (joint.joint_upper_limit * Algebra::pi())/ Scalar(180.));
+        mb.joint_limits_.push_back(limit);
+      }
+    }
     return return_code;
   }
 

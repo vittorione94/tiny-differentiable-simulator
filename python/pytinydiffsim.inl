@@ -35,6 +35,24 @@
           }
           return "[" + values + "]";
       })
+      .def("to_vecx",
+      [](const std::vector<double>& a) {
+        VectorX values(a.size());
+        for (int i = 0; i < a.size(); i++)
+        {
+          values[i] = MyScalar(a[i]);
+        }
+        return values;
+        })
+      .def("to_list",
+      [](const VectorX& a) {
+        std::vector<double> values;
+        for (int i = 0; i < a.size(); i++)
+        {
+          values.push_back(MyAlgebra::to_double(a[i]));
+        }
+        return values;
+        })
       ;
       
   typedef typename MyAlgebra::Vector3 Vector3;
@@ -654,6 +672,7 @@
       .def("base_X_world", py::overload_cast<>(&MultiBody<MyAlgebra>::base_X_world, py::const_))
       .def("collision_geometries", py::overload_cast<int>(&MultiBody<MyAlgebra>::collision_geometries, py::const_))
       .def("collision_transforms", py::overload_cast<int>(&MultiBody<MyAlgebra>::collision_transforms, py::const_))
+      .def("joint_limits", &MultiBody<MyAlgebra>::joint_limits)
       ;
 
   m.def("fraction", &fraction);
@@ -819,6 +838,8 @@
       .def(py::init<>())
       .def("resolve_collision",
            &MultiBodyConstraintSolver<MyAlgebra>::resolve_collision2)
+      .def("resolve_collisions",
+            &MultiBodyConstraintSolver<MyAlgebra>::resolve_collisions)
       .def_readwrite("pgs_iterations_", &MultiBodyConstraintSolver<MyAlgebra>::pgs_iterations_)
       .def_readwrite("keep_all_points_", &MultiBodyConstraintSolver<MyAlgebra>::keep_all_points_)
       .def_readwrite("cfm_", &MultiBodyConstraintSolver<MyAlgebra>::cfm_)
@@ -1037,122 +1058,127 @@
       .def(py::init<>())
       .def("convert2", &UrdfToMultiBody2<MyAlgebra>::convert);
 
-#ifdef ENABLE_TEST_ENVS
+//    py::class_<ReacherEnvOutput>(m, "ReacherEnvOutput")
+//      .def(py::init<>())
+//      .def_readwrite("obs",
+//                     &ReacherEnvOutput::obs)
+//      .def_readwrite("reward",
+//                     &ReacherEnvOutput::reward)
+//      .def_readwrite("done",
+//                     &ReacherEnvOutput::done)
+//
+//
+//      .def_readwrite("body0_graphics_pos",
+//                     &ReacherEnvOutput::body0_graphics_pos)
+//      .def_readwrite("body0_graphics_orn",
+//                     &ReacherEnvOutput::body0_graphics_orn)
+//      .def_readwrite("body1_graphics_pos",
+//                     &ReacherEnvOutput::body1_graphics_pos)
+//      .def_readwrite("body1_graphics_orn",
+//                     &ReacherEnvOutput::body1_graphics_orn)
+//      .def_readwrite("tip_graphics_pos",
+//                     &ReacherEnvOutput::tip_graphics_pos)
+//      .def_readwrite("tip_graphics_orn",
+//                     &ReacherEnvOutput::tip_graphics_orn)
+//      .def_readwrite("target_graphics_pos",
+//                     &ReacherEnvOutput::target_graphics_pos)
+//      ;
+//
+//   py::class_<ReacherRolloutOutput>(m, "ReacherRolloutOutput")
+//      .def(py::init<>())
+//      .def_readwrite("total_reward",
+//                     &ReacherRolloutOutput::total_reward)
+//      .def_readwrite("num_steps",
+//                     &ReacherRolloutOutput::num_steps)
+//      ;
+//   py::class_<ReacherContactSimulation<MyAlgebra> >(m, "ReacherSimulation")
+//      .def(py::init<>())
+//      .def_readwrite("m_urdf_filename",
+//                     &ReacherContactSimulation<MyAlgebra>::m_urdf_filename)
+//
+//      ;
+//
+//     py::class_<ReacherEnv<MyAlgebra>>(m, "ReacherEnv")
+//      .def(py::init<>())
+//      .def("reset",&ReacherEnv<MyAlgebra>::reset, py::arg("gravity") = MyAlgebra::Vector3(0.,0.,-10.))
+//      .def("step", &ReacherEnv<MyAlgebra>::step2)
+//      .def("rollout", &ReacherEnv<MyAlgebra>::rollout)
+//      .def("update_weights", &ReacherEnv<MyAlgebra>::init_neural_network)
+//      .def("seed", &ReacherEnv<MyAlgebra>::seed)
+//      .def("init_neural_network", &ReacherEnv<MyAlgebra>::init_neural_network)
+//      .def("policy", &ReacherEnv<MyAlgebra>::policy)
+//      ;
+//
+//
+//  py::class_<CartpoleEnvOutput>(m, "CartpoleEnvOutput")
+//      .def(py::init<>())
+//      .def_readwrite("obs",
+//                     &CartpoleEnvOutput::obs)
+//      .def_readwrite("reward",
+//                     &CartpoleEnvOutput::reward)
+//      .def_readwrite("done",
+//                     &CartpoleEnvOutput::done)
+//      .def_readwrite("cart_graphics_pos",
+//                     &CartpoleEnvOutput::cart_graphics_pos)
+//      .def_readwrite("cart_graphics_orn",
+//                     &CartpoleEnvOutput::cart_graphics_orn)
+//      .def_readwrite("pole_graphics_pos",
+//                     &CartpoleEnvOutput::pole_graphics_pos)
+//      .def_readwrite("pole_graphics_orn",
+//                     &CartpoleEnvOutput::pole_graphics_orn)
+//
+//      ;
+//
+//   py::class_<CartpoleRolloutOutput>(m, "CartpoleRolloutOutput")
+//      .def(py::init<>())
+//      .def_readwrite("total_reward",
+//                     &CartpoleRolloutOutput::total_reward)
+//      .def_readwrite("num_steps",
+//                     &CartpoleRolloutOutput::num_steps)
+//      ;
+//
+//  py::class_<CartpoleContactSimulation<MyAlgebra>>(m, "CartpoleSimulation")
+//      .def(py::init<>())
+//      .def_readwrite("m_urdf_filename",
+//                     &CartpoleContactSimulation<MyAlgebra>::m_urdf_filename)
+//      ;
+//
+//  py::class_<CartpoleEnv<MyAlgebra>>(m, "CartpoleEnv")
+//      .def(py::init<>())
+//      .def("reset", &CartpoleEnv<MyAlgebra>::reset2)
+//      .def("step", &CartpoleEnv<MyAlgebra>::step2)
+//      .def("rollout", &CartpoleEnv<MyAlgebra>::rollout)
+//      .def("update_weights", &CartpoleEnv<MyAlgebra>::init_neural_network)
+//      .def("seed", &CartpoleEnv<MyAlgebra>::seed)
+//      .def("init_neural_network", &CartpoleEnv<MyAlgebra>::init_neural_network)
+//      .def("policy", &CartpoleEnv<MyAlgebra>::policy)
+//      ;
+//
+//   py::class_<AntContactSimulation<MyAlgebra>>(m, "AntContactSimulation")
+//      .def(py::init<>())
+//      .def_readwrite("m_urdf_filename",
+//                     &AntContactSimulation<MyAlgebra>::m_urdf_filename)
+//      ;
+//
+//    py::class_<AntEnv<MyAlgebra>>(m, "AntEnv")
+//      .def(py::init<>())
+//      .def("reset", &AntEnv<MyAlgebra>::reset)
+//      .def("step", &AntEnv<MyAlgebra>::step2)
+//      .def("rollout", &AntEnv<MyAlgebra>::rollout)
+//      .def("update_weights", &AntEnv<MyAlgebra>::init_neural_network)
+//      .def("seed", &AntEnv<MyAlgebra>::seed)
+//      .def("init_neural_network", &AntEnv<MyAlgebra>::init_neural_network)
+//      .def("policy", &AntEnv<MyAlgebra>::policy)
+//      ;
+//
+//    py::class_<HumanoidContactSimulation<MyAlgebra>>(m, "HumanoidContactSimulation")
+//    .def(py::init<>())
+//    .def_property_readonly("m_urdf_filename", &HumanoidContactSimulation<MyAlgebra>::m_urdf_filename)
+//    .def_property_readonly("mb_", &HumanoidContactSimulation<MyAlgebra>::mb_)
+//    ;
+    ;
 
-    py::class_<ReacherEnvOutput>(m, "ReacherEnvOutput")
-      .def(py::init<>())
-      .def_readwrite("obs",
-                     &ReacherEnvOutput::obs)
-      .def_readwrite("reward",
-                     &ReacherEnvOutput::reward)
-      .def_readwrite("done",
-                     &ReacherEnvOutput::done)
 
-    
-      .def_readwrite("body0_graphics_pos",
-                     &ReacherEnvOutput::body0_graphics_pos)
-      .def_readwrite("body0_graphics_orn",
-                     &ReacherEnvOutput::body0_graphics_orn)
-      .def_readwrite("body1_graphics_pos",
-                     &ReacherEnvOutput::body1_graphics_pos)
-      .def_readwrite("body1_graphics_orn",
-                     &ReacherEnvOutput::body1_graphics_orn)
-      .def_readwrite("tip_graphics_pos",
-                     &ReacherEnvOutput::tip_graphics_pos)
-      .def_readwrite("tip_graphics_orn",
-                     &ReacherEnvOutput::tip_graphics_orn)
-      .def_readwrite("target_graphics_pos",
-                     &ReacherEnvOutput::target_graphics_pos)
-      ;
-
-   py::class_<ReacherRolloutOutput>(m, "ReacherRolloutOutput")
-      .def(py::init<>())
-      .def_readwrite("total_reward",
-                     &ReacherRolloutOutput::total_reward)
-      .def_readwrite("num_steps",
-                     &ReacherRolloutOutput::num_steps)
-      ;
-   py::class_<ReacherContactSimulation<MyAlgebra> >(m, "ReacherSimulation")
-      .def(py::init<>())
-      .def_readwrite("m_urdf_filename",
-                     &ReacherContactSimulation<MyAlgebra>::m_urdf_filename)
-
-      ;
-
-     py::class_<ReacherEnv<MyAlgebra>>(m, "ReacherEnv")
-      .def(py::init<>())
-      .def("reset",&ReacherEnv<MyAlgebra>::reset, py::arg("gravity") = MyAlgebra::Vector3(0.,0.,-10.))
-      .def("step", &ReacherEnv<MyAlgebra>::step2)
-      .def("rollout", &ReacherEnv<MyAlgebra>::rollout)
-      .def("update_weights", &ReacherEnv<MyAlgebra>::init_neural_network)
-      .def("seed", &ReacherEnv<MyAlgebra>::seed)
-      .def("init_neural_network", &ReacherEnv<MyAlgebra>::init_neural_network)
-      .def("policy", &ReacherEnv<MyAlgebra>::policy)
-      ;
-
-
-  py::class_<CartpoleEnvOutput>(m, "CartpoleEnvOutput")
-      .def(py::init<>())
-      .def_readwrite("obs",
-                     &CartpoleEnvOutput::obs)
-      .def_readwrite("reward",
-                     &CartpoleEnvOutput::reward)
-      .def_readwrite("done",
-                     &CartpoleEnvOutput::done)
-      .def_readwrite("cart_graphics_pos",
-                     &CartpoleEnvOutput::cart_graphics_pos)
-      .def_readwrite("cart_graphics_orn",
-                     &CartpoleEnvOutput::cart_graphics_orn)
-      .def_readwrite("pole_graphics_pos",
-                     &CartpoleEnvOutput::pole_graphics_pos)
-      .def_readwrite("pole_graphics_orn",
-                     &CartpoleEnvOutput::pole_graphics_orn)
-      
-      ;
-
-   py::class_<CartpoleRolloutOutput>(m, "CartpoleRolloutOutput")
-      .def(py::init<>())
-      .def_readwrite("total_reward",
-                     &CartpoleRolloutOutput::total_reward)
-      .def_readwrite("num_steps",
-                     &CartpoleRolloutOutput::num_steps)
-      ;
-
-  py::class_<CartpoleContactSimulation<MyAlgebra>>(m, "CartpoleSimulation")
-      .def(py::init<>())
-      .def_readwrite("m_urdf_filename",
-                     &CartpoleContactSimulation<MyAlgebra>::m_urdf_filename)
-      ;
-
-  py::class_<CartpoleEnv<MyAlgebra>>(m, "CartpoleEnv")
-      .def(py::init<>())
-      .def("reset", &CartpoleEnv<MyAlgebra>::reset2)
-      .def("step", &CartpoleEnv<MyAlgebra>::step2)
-      .def("rollout", &CartpoleEnv<MyAlgebra>::rollout)
-      .def("update_weights", &CartpoleEnv<MyAlgebra>::init_neural_network)
-      .def("seed", &CartpoleEnv<MyAlgebra>::seed)
-      .def("init_neural_network", &CartpoleEnv<MyAlgebra>::init_neural_network)
-      .def("policy", &CartpoleEnv<MyAlgebra>::policy)
-      ;
-  
-   py::class_<AntContactSimulation<MyAlgebra>>(m, "AntContactSimulation")
-      .def(py::init<>())
-      .def_readwrite("m_urdf_filename",
-                     &AntContactSimulation<MyAlgebra>::m_urdf_filename)
-      ;
-
-    py::class_<AntEnv<MyAlgebra>>(m, "AntEnv")
-      .def(py::init<>())
-      .def("reset", &AntEnv<MyAlgebra>::reset)
-      .def("step", &AntEnv<MyAlgebra>::step2)
-      .def("rollout", &AntEnv<MyAlgebra>::rollout)
-      .def("update_weights", &AntEnv<MyAlgebra>::init_neural_network)
-      .def("seed", &AntEnv<MyAlgebra>::seed)
-      .def("init_neural_network", &AntEnv<MyAlgebra>::init_neural_network)
-      .def("policy", &AntEnv<MyAlgebra>::policy)
-      ;
-
-#endif//ENABLE_TEST_ENVS
 
 //////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////

@@ -718,9 +718,9 @@ struct UrdfParser {
   {
     std::stringstream ss;
 
-    ss << std::string(level, '-') << link_name << "["
-              << link_name_to_index[link_name] << "]" << std::endl;
-    logger.print_message(ss.str());
+//    ss << std::string(level, '-') << link_name << "["
+//              << link_name_to_index[link_name] << "]" << std::endl;
+//    logger.print_message(ss.str());
     // Iterate through the map
     for (auto at = joint_to_parent_name_insertion_order.begin();
          at != joint_to_parent_name_insertion_order.end(); at++) {

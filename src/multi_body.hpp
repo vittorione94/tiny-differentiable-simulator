@@ -81,6 +81,7 @@ class MultiBody {
   std::vector<const Geometry *> collision_geometries_;
   // offset of collision geometries (relative to this link frame)
   std::vector<Transform> X_collisions_;
+  std::vector<std::pair<Scalar, Scalar>> joint_limits_;
 
  public:
   VectorX q_, qd_, qdd_, tau_;
@@ -126,6 +127,8 @@ class MultiBody {
 
   std::string &name() { return name_; }
   const std::string &name() const { return name_; }
+
+  TINY_INLINE std::vector<std::pair<Scalar, Scalar>> joint_limits() { return joint_limits_; }
 
   TINY_INLINE const LinkCollection &links() const { return links_; }
   TINY_INLINE std::size_t num_links() const { return links_.size(); }

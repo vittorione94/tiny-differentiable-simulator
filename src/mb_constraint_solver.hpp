@@ -166,6 +166,14 @@ class MultiBodyConstraintSolver {
     return cps;
   }
 
+  virtual void resolve_collisions(const std::vector<std::vector<ContactPoint>>& org_cps,
+                                                       const Scalar& dt) {
+    for (auto cps : org_cps)
+    {
+        resolve_collision2(cps, dt);
+    }
+  }
+
   virtual void resolve_collision(const std::vector<ContactPoint>& org_cps, const Scalar& dt) {
     std::vector<ContactPoint> cps;
     cps.resize(0);
